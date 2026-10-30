@@ -1,1 +1,60 @@
 @import "tailwindcss";
+
+@theme {
+  --color-cream: #fff8ee;
+  --color-ink: #1a1a1a;
+  --color-tomato: #ff4d2e;
+  --color-mustard: #ffc531;
+  --color-leaf: #2bb673;
+  --color-sky: #3b82f6;
+  --font-display: "Archivo Black", sans-serif;
+  --font-body: "DM Sans", sans-serif;
+}
+
+body {
+  @apply bg-cream text-ink font-body;
+}
+
+.reveal {
+  display: block;
+  overflow: hidden;
+}
+
+.reveal > span {
+  display: block;
+  animation: rise 0.7s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+
+.reveal:nth-child(2) > span {
+  animation-delay: 0.1s;
+}
+
+.reveal:nth-child(3) > span {
+  animation-delay: 0.2s;
+}
+
+.float {
+  display: inline-block;
+  animation: float 3.4s ease-in-out infinite;
+}
+
+@keyframes rise {
+  from {
+    transform: translateY(105%);
+  }
+}
+
+@keyframes float {
+  50% {
+    transform: translateY(-12px) rotate(4deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+}
