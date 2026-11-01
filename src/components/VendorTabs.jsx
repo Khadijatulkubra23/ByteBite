@@ -31,11 +31,11 @@ export default function VendorTabs({ vendors, active, onChange }) {
           role="tab"
           aria-selected={v.id === active}
           onClick={() => onChange(v.id)}
-          className={`relative z-10 flex shrink-0 items-center gap-2 rounded-full border-2 px-5 py-2.5 font-bold transition-colors ${
+          className={`relative z-10 flex shrink-0 items-center gap-2 rounded-full border-2 px-5 py-2 font-bold transition-colors ${
             v.id === active ? 'border-transparent text-white' : 'border-ink/10 bg-white'
           }`}
         >
-          <span>{v.icon}</span>
+          <img src={v.image} alt="" width="400" height="400" className="h-7 w-7 object-contain" />
           {v.name}
         </button>
       ))}

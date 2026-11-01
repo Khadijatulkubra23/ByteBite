@@ -1,13 +1,12 @@
 import { Link } from 'react-router-dom'
 import { vendors } from '../data/vendors'
 import { initialOrders } from '../data/orders'
-
-const icons = { 'burger-shack': '🍔', 'brew-beans': '☕', 'desi-bites': '🍛' }
+import { FlameIcon, BagIcon, CheckIcon } from '../components/Icons'
 
 const stages = [
-  { key: 'prepping', label: 'Prepping', icon: '🍳', style: 'bg-mustard text-ink' },
-  { key: 'ready', label: 'Ready', icon: '🛍️', style: 'bg-leaf text-white' },
-  { key: 'picked-up', label: 'Picked Up', icon: '✅', style: 'bg-ink text-white' },
+  { key: 'prepping', label: 'Prepping', Icon: FlameIcon, style: 'bg-mustard text-ink' },
+  { key: 'ready', label: 'Ready', Icon: BagIcon, style: 'bg-leaf text-white' },
+  { key: 'picked-up', label: 'Picked Up', Icon: CheckIcon, style: 'bg-ink text-white' },
 ]
 
 const count = (key) => initialOrders.filter((o) => o.stage === key).length
@@ -32,8 +31,14 @@ export default function Home() {
             View Menu →
           </Link>
         </div>
-        <div className="mx-auto grid aspect-square w-full max-w-sm place-items-center rounded-[58%_42%_55%_45%/48%_58%_42%_52%] bg-mustard text-[9rem] sm:text-[11rem]">
-          <span className="float">🍔</span>
+        <div className="mx-auto grid aspect-square w-full max-w-sm place-items-center rounded-[58%_42%_55%_45%/48%_58%_42%_52%] bg-mustard">
+          <img
+            src="/food/classic-smash-burger.webp"
+            alt="Classic smash burger"
+            width="400"
+            height="400"
+            className="float w-4/5 object-contain"
+          />
         </div>
       </section>
 
@@ -47,7 +52,7 @@ export default function Home() {
               to={`/vendor/${v.id}`}
               className="flex items-center gap-3 rounded-2xl border-2 border-ink/10 bg-white p-4 transition hover:-translate-y-1 hover:border-tomato"
             >
-              <span className="text-4xl">{icons[v.id]}</span>
+              <img src={v.image} alt="" width="400" height="400" className="h-14 w-14 shrink-0 object-contain" />
               <span>
                 <span className="block font-bold">{v.name}</span>
                 <span className="block text-sm text-ink/60">{v.tagline}</span>
@@ -68,13 +73,13 @@ export default function Home() {
           </Link>
         </div>
         <div className="mt-5 grid gap-3 sm:grid-cols-3">
-          {stages.map((s) => {
-            const n = count(s.key)
+          {stages.map(({ key, label, Icon, style }) => {
+            const n = count(key)
             return (
-              <div key={s.key} className={`flex items-center gap-3 rounded-2xl p-5 ${s.style}`}>
-                <span className="text-3xl">{s.icon}</span>
+              <div key={key} className={`flex items-center gap-3 rounded-2xl p-5 ${style}`}>
+                <Icon className="h-8 w-8" />
                 <div>
-                  <p className="font-display text-lg uppercase">{s.label}</p>
+                  <p className="font-display text-lg uppercase">{label}</p>
                   <p className="text-sm opacity-80">
                     {n} {n === 1 ? 'order' : 'orders'}
                   </p>

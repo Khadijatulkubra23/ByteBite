@@ -19,8 +19,8 @@ function VendorView({ vendor }) {
           <h1 className="font-display text-4xl uppercase sm:text-6xl">{vendor.name}</h1>
           <p className="mt-2 text-lg text-ink/70">{vendor.tagline}</p>
         </div>
-        <div className="grid h-32 w-32 place-items-center rounded-[58%_42%_55%_45%/48%_58%_42%_52%] bg-mustard text-6xl sm:h-40 sm:w-40 sm:text-7xl">
-          <span className="float">{vendor.icon}</span>
+        <div className="grid h-36 w-36 place-items-center rounded-[58%_42%_55%_45%/48%_58%_42%_52%] bg-mustard sm:h-44 sm:w-44">
+          <img src={vendor.image} alt="" width="400" height="400" className="float w-4/5 object-contain" />
         </div>
       </div>
       <FilterChips selected={selected} onToggle={toggle} onClear={() => setSelected([])} />

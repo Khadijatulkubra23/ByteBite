@@ -1,10 +1,11 @@
 import { initialOrders } from '../data/orders'
 import OrderCard from '../components/OrderCard'
+import { FlameIcon, BagIcon, CheckIcon } from '../components/Icons'
 
 const columns = [
-  { key: 'prepping', label: 'Prepping', icon: '🍳', style: 'bg-mustard text-ink' },
-  { key: 'ready', label: 'Ready', icon: '🛍️', style: 'bg-leaf text-white' },
-  { key: 'picked-up', label: 'Picked Up', icon: '✅', style: 'bg-ink text-white' },
+  { key: 'prepping', label: 'Prepping', Icon: FlameIcon, style: 'bg-mustard text-ink' },
+  { key: 'ready', label: 'Ready', Icon: BagIcon, style: 'bg-leaf text-white' },
+  { key: 'picked-up', label: 'Picked Up', Icon: CheckIcon, style: 'bg-ink text-white' },
 ]
 
 export default function Queue() {
@@ -13,13 +14,14 @@ export default function Queue() {
       <h1 className="font-display text-4xl uppercase sm:text-5xl">Live Order Board</h1>
       <p className="mt-1 text-ink/70">Track your order in real time. Fresh food, just a little wait!</p>
       <div className="mt-6 grid gap-4 md:grid-cols-3">
-        {columns.map((c) => {
-          const list = initialOrders.filter((o) => o.stage === c.key)
+        {columns.map(({ key, label, Icon, style }) => {
+          const list = initialOrders.filter((o) => o.stage === key)
           return (
-            <div key={c.key} className={`flex flex-col gap-3 rounded-2xl p-4 ${c.style}`}>
+            <div key={key} className={`flex flex-col gap-3 rounded-2xl p-4 ${style}`}>
               <h2 className="flex items-center justify-between font-display uppercase">
-                <span>
-                  {c.icon} {c.label}
+                <span className="flex items-center gap-2">
+                  <Icon />
+                  {label}
                 </span>
                 <span>{list.length}</span>
               </h2>

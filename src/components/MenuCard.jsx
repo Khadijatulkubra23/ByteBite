@@ -15,7 +15,14 @@ export default function MenuCard({ item, index }) {
       className="card-in flex flex-col gap-2 rounded-2xl border-2 border-ink/10 bg-white p-4 transition hover:-translate-y-1 hover:shadow-[0_8px_0_var(--color-ink)]"
       style={{ animationDelay: `${index * 60}ms` }}
     >
-      <div className="text-center text-5xl">{item.emoji}</div>
+      <img
+        src={item.image}
+        alt=""
+        width="400"
+        height="400"
+        loading="lazy"
+        className="mx-auto aspect-square w-full max-w-40 object-contain"
+      />
       <h3 className="font-bold leading-tight">{item.name}</h3>
       <div className="flex min-h-6 flex-wrap gap-1.5">
         {item.tags.map((t) => (

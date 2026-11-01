@@ -12,7 +12,7 @@ export default function OrderCard({ order }) {
         <p>
           <span className="font-display">#{order.id}</span> <span className="font-bold">{vendor.name}</span>
         </p>
-        <span aria-hidden="true">{vendor.icon}</span>
+        <img src={vendor.image} alt="" width="400" height="400" className="h-8 w-8 object-contain" />
       </div>
       <p className="mt-1 text-sm opacity-70">{order.items.join(', ')}</p>
 
