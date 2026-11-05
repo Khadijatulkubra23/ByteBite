@@ -1,10 +1,12 @@
-import { createContext, useContext, useEffect, useRef, useState } from 'react'
+import { createContext, useCallback, useContext, useEffect, useRef, useState } from 'react'
 import { initialOrders } from '../data/orders'
 import { vendors } from '../data/vendors'
 
 const OrdersContext = createContext([])
+const ActionsContext = createContext(() => 0)
 
 export const useOrders = () => useContext(OrdersContext)
+export const useAddOrder = () => useContext(ActionsContext)
 
 const READY_SECONDS = 15
 const DONE_SECONDS = 20
@@ -42,6 +44,22 @@ export function OrdersProvider({ children }) {
   const nextId = useRef(Math.max(...initialOrders.map((o) => o.id)) + 1)
   const ticks = useRef(0)
 
+  const addOrder = useCallback((vendorId, itemName) => {
+    const id = nextId.current++
+    setOrders((prev) => [
+      ...prev,
+      {
+        id,
+        vendorId,
+        items: [itemName],
+        stage: 'prepping',
+        prepTime: 30 + Math.floor(Math.random() * 16),
+        elapsed: 0,
+      },
+    ])
+    return id
+  }, [])
+
   useEffect(() => {
     const timer = setInterval(() => {
       ticks.current += 1
@@ -59,5 +77,9 @@ export function OrdersProvider({ children }) {
     return () => clearInterval(timer)
   }, [])
 
-  return <OrdersContext.Provider value={orders}>{children}</OrdersContext.Provider>
+  return (
+    <OrdersContext.Provider value={orders}>
+      <ActionsContext.Provider value={addOrder}>{children}</ActionsContext.Provider>
+    </OrdersContext.Provider>
+  )
 }

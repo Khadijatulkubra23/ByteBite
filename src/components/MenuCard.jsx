@@ -1,4 +1,7 @@
+import { useEffect, useState } from 'react'
+import { Link } from 'react-router-dom'
 import useCountUp from '../hooks/useCountUp'
+import { useAddOrder } from '../context/OrdersContext'
 import { tagLabel } from '../data/vendors'
 
 const tagStyle = {
@@ -7,8 +10,16 @@ const tagStyle = {
   'gluten-free': 'bg-sky/15 text-sky',
 }
 
-export default function MenuCard({ item, index }) {
+export default function MenuCard({ item, index, vendorId }) {
   const price = useCountUp(item.price)
+  const addOrder = useAddOrder()
+  const [placed, setPlaced] = useState(null)
+
+  useEffect(() => {
+    if (!placed) return
+    const t = setTimeout(() => setPlaced(null), 5000)
+    return () => clearTimeout(t)
+  }, [placed])
 
   return (
     <article
@@ -31,7 +42,25 @@ export default function MenuCard({ item, index }) {
           </span>
         ))}
       </div>
-      <p className="mt-auto font-display text-xl">Rs. {price}</p>
+      <div className="mt-auto flex items-center justify-between gap-2 pt-1">
+        <p className="font-display text-xl">Rs. {price}</p>
+        {placed ? (
+          <Link
+            to="/queue"
+            role="status"
+            className="pop rounded-full bg-leaf px-3 py-1.5 text-xs font-bold text-white"
+          >
+            #{placed} placed. Track →
+          </Link>
+        ) : (
+          <button
+            onClick={() => setPlaced(addOrder(vendorId, item.name))}
+            className="rounded-full bg-tomato px-4 py-1.5 text-sm font-bold text-white transition active:scale-95"
+          >
+            Order now
+          </button>
+        )}
+      </div>
     </article>
   )
 }

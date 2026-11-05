@@ -26,7 +26,7 @@ function VendorView({ vendor }) {
       <FilterChips selected={selected} onToggle={toggle} onClear={() => setSelected([])} />
       <div className="grid grid-cols-[repeat(auto-fill,minmax(210px,1fr))] gap-4">
         {items.length ? (
-          items.map((item, i) => <MenuCard key={item.id} item={item} index={i} />)
+          items.map((item, i) => <MenuCard key={item.id} item={item} index={i} vendorId={vendor.id} />)
         ) : (
           <p className="col-span-full rounded-2xl border-2 border-dashed border-ink/15 p-8 text-center text-ink/60">
             No items match these filters. Clear a filter to see more.
