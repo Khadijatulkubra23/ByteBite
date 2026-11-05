@@ -44,22 +44,20 @@ export default function MenuCard({ item, index, vendorId }) {
       </div>
       <div className="mt-auto flex items-center justify-between gap-2 pt-1">
         <p className="font-display text-xl">Rs. {price}</p>
-        {placed ? (
-          <Link
-            to="/queue"
-            role="status"
-            className="pop rounded-full bg-leaf px-3 py-1.5 text-xs font-bold text-white"
-          >
-            #{placed} placed. Track →
-          </Link>
-        ) : (
-          <button
-            onClick={() => setPlaced(addOrder(vendorId, item.name))}
-            className="rounded-full bg-tomato px-4 py-1.5 text-sm font-bold text-white transition active:scale-95"
-          >
-            Order now
-          </button>
-        )}
+        <span aria-live="polite">
+          {placed ? (
+            <Link to="/queue" className="pop rounded-full bg-leaf px-3 py-1.5 text-xs font-bold text-white">
+              #{placed} placed. Track →
+            </Link>
+          ) : (
+            <button
+              onClick={() => setPlaced(addOrder(vendorId, item.name))}
+              className="rounded-full bg-tomato px-4 py-1.5 text-sm font-bold text-white transition active:scale-95"
+            >
+              Order now
+            </button>
+          )}
+        </span>
       </div>
     </article>
   )
