@@ -1,4 +1,4 @@
-import { initialOrders } from '../data/orders'
+import { useOrders } from '../context/OrdersContext'
 import OrderCard from '../components/OrderCard'
 import { FlameIcon, BagIcon, CheckIcon } from '../components/Icons'
 
@@ -9,13 +9,15 @@ const columns = [
 ]
 
 export default function Queue() {
+  const orders = useOrders()
+
   return (
     <section className="mx-auto max-w-6xl px-4 py-8">
       <h1 className="font-display text-4xl uppercase sm:text-5xl">Live Order Board</h1>
       <p className="mt-1 text-ink/70">Track your order in real time. Fresh food, just a little wait!</p>
       <div className="mt-6 grid gap-4 md:grid-cols-3">
         {columns.map(({ key, label, Icon, style }) => {
-          const list = initialOrders.filter((o) => o.stage === key)
+          const list = orders.filter((o) => o.stage === key)
           return (
             <div key={key} className={`flex flex-col gap-3 rounded-2xl p-4 ${style}`}>
               <h2 className="flex items-center justify-between font-display uppercase">

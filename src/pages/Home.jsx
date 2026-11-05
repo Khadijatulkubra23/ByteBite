@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom'
 import { vendors } from '../data/vendors'
-import { initialOrders } from '../data/orders'
+import { useOrders } from '../context/OrdersContext'
 import { FlameIcon, BagIcon, CheckIcon } from '../components/Icons'
 
 const stages = [
@@ -9,9 +9,9 @@ const stages = [
   { key: 'picked-up', label: 'Picked Up', Icon: CheckIcon, style: 'bg-ink text-white' },
 ]
 
-const count = (key) => initialOrders.filter((o) => o.stage === key).length
-
 export default function Home() {
+  const orders = useOrders()
+
   return (
     <div className="mx-auto max-w-6xl px-4">
       <section className="grid items-center gap-8 py-10 md:grid-cols-[1.2fr_1fr] md:py-16">
@@ -74,7 +74,7 @@ export default function Home() {
         </div>
         <div className="mt-5 grid gap-3 sm:grid-cols-3">
           {stages.map(({ key, label, Icon, style }) => {
-            const n = count(key)
+            const n = orders.filter((o) => o.stage === key).length
             return (
               <div key={key} className={`flex items-center gap-3 rounded-2xl p-5 ${style}`}>
                 <Icon className="h-8 w-8" />

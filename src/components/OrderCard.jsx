@@ -7,7 +7,7 @@ export default function OrderCard({ order }) {
   const done = order.stage === 'picked-up'
 
   return (
-    <article className={`rounded-xl p-3 shadow-sm ${done ? 'bg-white/10 text-white' : 'bg-white text-ink'}`}>
+    <article className={`card-in rounded-xl p-3 shadow-sm ${done ? 'bg-white/10 text-white' : 'bg-white text-ink'}`}>
       <div className="flex items-center justify-between gap-2">
         <p>
           <span className="font-display">#{order.id}</span> <span className="font-bold">{vendor.name}</span>
@@ -24,7 +24,7 @@ export default function OrderCard({ order }) {
           </div>
           <div className="mt-1 h-2 overflow-hidden rounded-full bg-ink/10">
             <div
-              className="h-full rounded-full bg-tomato"
+              className="h-full rounded-full bg-tomato transition-[width] duration-1000 ease-linear"
               style={{ width: `${(order.elapsed / order.prepTime) * 100}%` }}
             />
           </div>
