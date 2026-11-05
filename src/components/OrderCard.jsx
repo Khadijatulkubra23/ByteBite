@@ -5,9 +5,14 @@ const mmss = (s) => `${Math.floor(s / 60)}:${String(s % 60).padStart(2, '0')}`
 export default function OrderCard({ order }) {
   const vendor = vendors.find((v) => v.id === order.vendorId)
   const done = order.stage === 'picked-up'
+  const ready = order.stage === 'ready'
 
   return (
-    <article className={`card-in rounded-xl p-3 shadow-sm ${done ? 'bg-white/10 text-white' : 'bg-white text-ink'}`}>
+    <article
+      className={`card-in rounded-xl p-3 shadow-sm ${ready ? 'glow' : ''} ${
+        done ? 'bg-white/10 text-white' : 'bg-white text-ink'
+      }`}
+    >
       <div className="flex items-center justify-between gap-2">
         <p>
           <span className="font-display">#{order.id}</span> <span className="font-bold">{vendor.name}</span>
@@ -30,7 +35,7 @@ export default function OrderCard({ order }) {
           </div>
         </>
       )}
-      {order.stage === 'ready' && <p className="mt-3 text-xs font-bold text-leaf">Collect at the counter</p>}
+      {ready && <p className="mt-3 text-xs font-bold text-leaf">Ready! Collect at the counter</p>}
       {done && <p className="mt-3 text-xs font-bold opacity-70">Picked up</p>}
     </article>
   )

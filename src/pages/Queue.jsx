@@ -10,11 +10,19 @@ const columns = [
 
 export default function Queue() {
   const orders = useOrders()
+  const ready = orders.filter((o) => o.stage === 'ready')
 
   return (
     <section className="mx-auto max-w-6xl px-4 py-8">
       <h1 className="font-display text-4xl uppercase sm:text-5xl">Live Order Board</h1>
       <p className="mt-1 text-ink/70">Track your order in real time. Fresh food, just a little wait!</p>
+
+      {ready.length > 0 && (
+        <p role="status" className="mt-5 rounded-2xl bg-leaf px-4 py-3 font-bold text-white">
+          Ready for pickup: {ready.map((o) => `#${o.id}`).join(', ')}
+        </p>
+      )}
+
       <div className="mt-6 grid gap-4 md:grid-cols-3">
         {columns.map(({ key, label, Icon, style }) => {
           const list = orders.filter((o) => o.stage === key)

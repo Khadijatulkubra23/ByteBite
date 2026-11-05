@@ -46,6 +46,21 @@ body {
   animation: pop 0.3s;
 }
 
+.glow {
+  position: relative;
+}
+
+.glow::after {
+  content: "";
+  position: absolute;
+  inset: -3px;
+  border-radius: inherit;
+  border: 3px solid #fff;
+  opacity: 0;
+  pointer-events: none;
+  animation: ring 2s ease-in-out infinite;
+}
+
 @keyframes rise {
   from {
     transform: translateY(105%);
@@ -68,6 +83,12 @@ body {
 @keyframes pop {
   50% {
     transform: scale(1.12);
+  }
+}
+
+@keyframes ring {
+  50% {
+    opacity: 0.9;
   }
 }
 
