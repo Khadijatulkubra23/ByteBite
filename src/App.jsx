@@ -2,6 +2,7 @@ import { Routes, Route } from 'react-router-dom'
 import Header from './components/Header'
 import BottomNav from './components/BottomNav'
 import Footer from './components/Footer'
+import Cursor from './components/Cursor'
 import Home from './pages/Home'
 import Menu from './pages/Menu'
 import Vendor from './pages/Vendor'
@@ -21,6 +22,7 @@ export default function App() {
       </main>
       <Footer />
       <BottomNav />
+      <Cursor />
     </div>
   )
 }
