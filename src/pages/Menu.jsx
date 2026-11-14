@@ -38,13 +38,16 @@ export default function Menu() {
 
       <VendorTabs vendors={vendors} active={active} onChange={pick} />
       <FilterChips selected={selected} onToggle={toggle} onClear={() => setSelected([])} />
-      {q && <p className="mb-3 text-sm text-ink/60">Showing results from all vendors</p>}
+      {q && <p className="mb-3 text-sm text-ink/70">Showing results from all vendors</p>}
 
-      <div key={q ? 'search' : active} className="grid grid-cols-[repeat(auto-fill,minmax(210px,1fr))] gap-4">
+      <div
+        key={`${q ? 'search' : active}-${selected.join('.')}`}
+        className="grid grid-cols-[repeat(auto-fill,minmax(210px,1fr))] gap-4"
+      >
         {items.length ? (
           items.map((item, i) => <MenuCard key={item.id} item={item} index={i} vendorId={item.vendorId} />)
         ) : (
-          <p className="col-span-full rounded-2xl border-2 border-dashed border-ink/15 p-8 text-center text-ink/60">
+          <p className="col-span-full rounded-2xl border-2 border-dashed border-ink/15 p-8 text-center text-ink/70">
             No items match your search or filters. Try clearing them.
           </p>
         )}

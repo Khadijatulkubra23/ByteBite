@@ -16,19 +16,22 @@ Campus lunch hours are crowded. Students don't know what each vendor offers, whi
 - Tailwind CSS v4
 - React Router
 - React Context API for shared order state
-- Plain CSS animations (no animation libraries)
+- Plain CSS animations and the browser IntersectionObserver API (no animation libraries)
 - Local JS data files (no backend)
 
 ## Features
 
 - Animated vendor tab navigation with a sliding pill indicator
+- Menu search across all vendors, combinable with the dietary filters
 - Dietary filter badges (Vegan, Halal, Gluten-Free), combinable
-- Animated price counters
+- Animated price counters and staggered card entrance
 - Live order board with three stages: Prepping, Ready, Picked Up
 - Client-side countdown timers and progress bars that fill in real time
 - Orders that move through the stages automatically, with new simulated orders arriving over time
 - Pulsing highlight for ready orders and a pickup banner listing ready order numbers
 - "Order now" button on every menu item that adds a test order to the live board
+- Scroll-reveal animations on the home page
+- Custom burger cursor on desktop devices with a mouse (hidden on touch screens)
 - Fully responsive, mobile-first layout with a bottom navigation bar on phones
 
 ## How the Live Queue Works
@@ -62,6 +65,15 @@ Orders reset to the sample data when the page is refreshed. Timers count ticks, 
 - Ready-order highlight and pickup banner
 - "Order now" button that places test orders from the Menu and Vendor pages
 
+### Module 3 (Nov 09 - Nov 15): Advanced features, search, filters, and polish
+
+- Menu search across all vendors, combined with dietary filters
+- Cards re-animate when filters or tabs change
+- Scroll-reveal animations using IntersectionObserver
+- Custom burger cursor for mouse devices, with a larger state over interactive elements
+- Accessibility improvements: skip-to-content link, labelled search field, screen-reader announcements, reduced-motion support
+- Page metadata, favicon, and theme color
+
 ## Data Schema
 
 **Vendor:** `id`, `name`, `image`, `tagline`, `items[]`
@@ -72,7 +84,7 @@ Orders reset to the sample data when the page is refreshed. Timers count ticks, 
 
 ```
 src/
-  components/   Header, BottomNav, Footer, VendorTabs, FilterChips, MenuCard, OrderCard, Icons
+  components/   Header, BottomNav, Footer, VendorTabs, FilterChips, MenuCard, OrderCard, Icons, Reveal, Cursor
   context/      OrdersContext (order simulation and shared state)
   pages/        Home, Menu, Vendor, Queue
   hooks/        useCountUp
@@ -86,6 +98,8 @@ public/food/    food illustrations (WebP)
 - `prefers-reduced-motion` is respected, so animations turn off for users who disable them
 - Food images are compressed WebP files with set dimensions to avoid layout shift, and menu images are lazy loaded
 - Filter chips and tabs use proper roles and states, and the pickup banner is announced to screen readers
+- The custom cursor only loads on devices with a mouse and never covers text inputs
+- Known issue: white text on the brand red and green has lower contrast than the WCAG AA target and is under review
 
 ## Run Locally
 
@@ -102,5 +116,5 @@ npm run dev
 |---|---|---|
 | Module 1 | Oct 26 - Nov 01 | Setup, design system, data schema, page skeleton (done) |
 | Module 2 | Nov 02 - Nov 08 | Live order status, timers, progress bars, stage changes (done) |
-| Module 3 | Nov 09 - Nov 15 | Search, polish animations, custom cursor, performance and accessibility |
-| Module 4 | Nov 16 - Nov 22 | Testing, live deployment, final README |
+| Module 3 | Nov 09 - Nov 15 | Search, filters, scroll animations, custom cursor, polish (done) |
+| Module 4 | Nov 16 - Nov 22 | Testing, Lighthouse check, live deployment, final README |

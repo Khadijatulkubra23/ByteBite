@@ -1,99 +1,59 @@
-import { Link } from 'react-router-dom'
+import { useState } from 'react'
+import { Link, useParams } from 'react-router-dom'
 import { vendors } from '../data/vendors'
-import { useOrders } from '../context/OrdersContext'
-import Reveal from '../components/Reveal'
-import { FlameIcon, BagIcon, CheckIcon } from '../components/Icons'
+import FilterChips from '../components/FilterChips'
+import MenuCard from '../components/MenuCard'
 
-const stages = [
-  { key: 'prepping', label: 'Prepping', Icon: FlameIcon, style: 'bg-mustard text-ink' },
-  { key: 'ready', label: 'Ready', Icon: BagIcon, style: 'bg-leaf text-white' },
-  { key: 'picked-up', label: 'Picked Up', Icon: CheckIcon, style: 'bg-ink text-white' },
-]
-
-export default function Home() {
-  const orders = useOrders()
+function VendorView({ vendor }) {
+  const [selected, setSelected] = useState([])
+  const items = vendor.items.filter((i) => selected.every((t) => i.tags.includes(t)))
+  const toggle = (t) => setSelected((s) => (s.includes(t) ? s.filter((x) => x !== t) : [...s, t]))
 
   return (
-    <div className="mx-auto max-w-6xl px-4">
-      <section className="grid items-center gap-8 py-10 md:grid-cols-[1.2fr_1fr] md:py-16">
+    <section className="mx-auto max-w-6xl px-4 py-8">
+      <Link to="/menu" className="text-sm font-bold text-tomato">
+        ← Back to menu
+      </Link>
+      <div className="mt-4 grid items-center gap-6 sm:grid-cols-[1fr_auto]">
         <div>
-          <h1 className="font-display text-5xl uppercase leading-none sm:text-6xl lg:text-7xl">
-            <span className="reveal"><span>Skip the</span></span>
-            <span className="reveal"><span>lunch queue.</span></span>
-            <span className="reveal"><span className="text-tomato">Grab good food.</span></span>
-          </h1>
-          <p className="mt-5 max-w-md text-lg text-ink/70">
-            Your campus food truck & café menu with a live pickup queue. Fresh food, faster lunches, happier you.
+          <h1 className="font-display text-4xl uppercase sm:text-6xl">{vendor.name}</h1>
+          <p className="mt-2 text-lg text-ink/70">{vendor.tagline}</p>
+        </div>
+        <div className="grid h-36 w-36 place-items-center rounded-[58%_42%_55%_45%/48%_58%_42%_52%] bg-mustard sm:h-44 sm:w-44">
+          <img src={vendor.image} alt="" width="400" height="400" className="float w-4/5 object-contain" />
+        </div>
+      </div>
+      <FilterChips selected={selected} onToggle={toggle} onClear={() => setSelected([])} />
+      <div
+        key={selected.join('.')}
+        className="grid grid-cols-[repeat(auto-fill,minmax(210px,1fr))] gap-4"
+      >
+        {items.length ? (
+          items.map((item, i) => <MenuCard key={item.id} item={item} index={i} vendorId={vendor.id} />)
+        ) : (
+          <p className="col-span-full rounded-2xl border-2 border-dashed border-ink/15 p-8 text-center text-ink/70">
+            No items match these filters. Clear a filter to see more.
           </p>
-          <Link
-            to="/menu"
-            className="mt-6 inline-block rounded-full bg-tomato px-7 py-3 font-bold text-white transition active:scale-95"
-          >
-            View Menu →
-          </Link>
-        </div>
-        <div className="mx-auto grid aspect-square w-full max-w-sm place-items-center rounded-[58%_42%_55%_45%/48%_58%_42%_52%] bg-mustard">
-          <img
-            src="/food/classic-smash-burger.webp"
-            alt="Classic smash burger"
-            width="400"
-            height="400"
-            className="float w-4/5 object-contain"
-          />
-        </div>
-      </section>
-
-      <Reveal>
-        <section className="py-8">
-          <h2 className="font-display text-2xl uppercase">Our Vendors</h2>
-          <div className="mt-2 h-1 w-10 rounded bg-tomato" />
-          <div className="mt-5 grid gap-3 sm:grid-cols-3">
-            {vendors.map((v) => (
-              <Link
-                key={v.id}
-                to={`/vendor/${v.id}`}
-                className="flex items-center gap-3 rounded-2xl border-2 border-ink/10 bg-white p-4 transition hover:-translate-y-1 hover:border-tomato"
-              >
-                <img src={v.image} alt="" width="400" height="400" className="h-14 w-14 shrink-0 object-contain" />
-                <span>
-                  <span className="block font-bold">{v.name}</span>
-                  <span className="block text-sm text-ink/60">{v.tagline}</span>
-                </span>
-              </Link>
-            ))}
-          </div>
-        </section>
-      </Reveal>
-
-      <Reveal>
-        <section className="py-8">
-          <div className="flex items-end justify-between">
-            <div>
-              <h2 className="font-display text-2xl uppercase">Live Order Board</h2>
-              <div className="mt-2 h-1 w-10 rounded bg-tomato" />
-            </div>
-            <Link to="/queue" className="text-sm font-bold text-tomato">
-              View all →
-            </Link>
-          </div>
-          <div className="mt-5 grid gap-3 sm:grid-cols-3">
-            {stages.map(({ key, label, Icon, style }) => {
-              const n = orders.filter((o) => o.stage === key).length
-              return (
-                <div key={key} className={`flex items-center gap-3 rounded-2xl p-5 ${style}`}>
-                  <Icon className="h-8 w-8" />
-                  <div>
-                    <p className="font-display text-lg uppercase">{label}</p>
-                    <p className="text-sm opacity-80">
-                      {n} {n === 1 ? 'order' : 'orders'}
-                    </p>
-                  </div>
-                </div>
-              )
-            })}
-          </div>
-        </section>
-      </Reveal>
-    </div>
+        )}
+      </div>
+    </section>
   )
+}
+
+export default function Vendor() {
+  const { id } = useParams()
+  const vendor = vendors.find((v) => v.id === id)
+
+  if (!vendor) {
+    return (
+      <section className="mx-auto max-w-6xl px-4 py-16 text-center">
+        <h1 className="font-display text-4xl uppercase">Vendor not found</h1>
+        <Link to="/menu" className="mt-4 inline-block font-bold text-tomato">
+          ← Back to menu
+        </Link>
+      </section>
+    )
+  }
+
+  return <VendorView key={vendor.id} vendor={vendor} />
 }
